@@ -7,55 +7,45 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="game-container">
-        <h1>Hangman Game</h1>
+    <div class="info">Try to guess the hidden word below before it's too late! You can guess one or more letters at a time or the whole word.</div>
+<input type="text" placeholder="Guess">
+<button style="display:none;">Play Again</button>
+<div class="word"></div>
+<div class="hint"></div>
+<div class="hangman"></div>
+<span style="position:absolute;bottom:10px;left:10px;">
+  <div><span>Reveal mode: </span> <input type="checkbox" id="reveal" /></div>
+  <div><span>Hints: </span> <input type="checkbox" id="hints" /></div>
+  <div class="guessesLeft">Guesses left: <span class="bold">10</span></div>
+  <div class="guessed">Guessed letters: <span class="bold"></span></div>
+</span>
+<span style="position:absolute;bottom:10px;right:10px;text-align:right;">
+  <div>Streak: <span class="streak bold">0</span></div>
+  <div>Average score: <span class="score bold">-</span></div>
+</span>
+    <script>
+        const guessForm = document.getElementById('guess-form');
+        const guessInput = document.getElementById('guess-input');
 
-        {% if message %}
-            <p class="message">{{ message }}</p>
-        {% endif %}
-
-        <div class="hangman-figure">
-            <pre>{{ hangman_figure }}</pre>
-        </div>
-
-        <h2>Guess the word:</h2>
-        <p class="word">{{ word }}</p>
-
-        <div class="info">
-            Try to guess the hidden word below before it's too late! You can guess one or more letters at a time or the whole word.
-        </div>
-
-        <p>Guesses left: <strong>{{ guesses_left }}</strong></p>
-
-        <form action="/" method="POST" class="guess-form">
-            <label for="guess">Enter a letter:</label>
-            <input type="text" id="guess" name="guess" maxlength="1" required>
-            <button type="submit">Guess</button>
-        </form>
-
-        <form action="/" method="POST">
-            <input type="hidden" name="guess" value="exit">
-            <button type="submit" class="exit-button">Exit Game</button>
-        </form>
-
-        <div class="extras">
-            <input type="text" placeholder="Guess">
-            <button style="display:none;">Play Again</button>
-            <div class="hint"></div>
-            <div class="hangman"></div>
-        </div>
-
-        <span style="position:absolute;bottom:10px;left:10px;">
-            <div><span>Reveal mode: </span> <input type="checkbox" id="reveal" /></div>
-            <div><span>Hints: </span> <input type="checkbox" id="hints" /></div>
-            <div class="guessesLeft">Guesses left: <span class="bold">10</span></div>
-            <div class="guessed">Guessed letters: <span class="bold"></span></div>
-        </span>
-
-        <span style="position:absolute;bottom:10px;right:10px;text-align:right;">
-            <div>Streak: <span class="streak bold">0</span></div>
-            <div>Average score: <span class="score bold">-</span></div>
-        </span>
-    </div>
+        guessForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const letter = guessInput.value.toLowerCase();
+            fetch('/guess', {
+                method: 'POST',
+                body: new URLSearchParams({ 'letter': letter }),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'win') {
+                    alert('You won!');
+                } else if (data.result === 'lose') {
+                    alert('Game Over!');
+                }
+                location.reload();
+            });
+        });
+    </script>
+      <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

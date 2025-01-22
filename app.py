@@ -1,82 +1,70 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, jsonify
 import random
-from hangman_logic import read_file, select_random_word, random_fill_word, is_missing_char, do_correct_answer, run_game_loop
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'  # Secret key needed for sessions
 
-@app.route("/", methods=["GET", "POST"])
+# List of words and their hints
+words = [
+    { "word": "america", "hint": "The states of ?" },
+    { "word": "animal", "hint": "There are many of them" },
+    { "word": "apple", "hint": "Take a byte" },
+    { "word": "bag", "hint": "It can hold stuff" },
+    # Add more words here
+]
+
+# Initial game state
+game_data = {}
+
+@app.route('/')
 def index():
-    if request.method == "POST":
-        guess = request.form.get("guess", "").strip().lower()  # Get the user's guess and normalize
-        word = session.get("word", "")
-        answer = session.get("answer", "")
-        number_guess = session.get("number_guess", 0)
+    # Choose a random word from the list
+    word_data = random.choice(words)
+    game_data['word'] = word_data['word']
+    game_data['hint'] = word_data['hint']
+    game_data['guesses_left'] = 10
+    game_data['guessed_letters'] = []
+    game_data['streak'] = 0
+    game_data['score'] = 0
+    
+    # Generate blank spaces for the word
+    game_data['blank_word'] = ['_'] * len(word_data['word'])
+    
+    return render_template('index.html', game_data=game_data)
 
-        # Handle exit or quit command
-        if guess in ["exit", "quit"]:
-            session.clear()
-            return render_template(
-                "index.html",
-                message="Game exited. Refresh to start a new game.",
-                word="",
-                guesses_left=0,
-                is_game_over=True
-            )
+@app.route('/guess', methods=['POST'])
+def guess():
+    letter = request.form['letter'].lower()
+    word = game_data['word']
+    
+    if letter in word and letter not in game_data['guessed_letters']:
+        # Correct guess
+        for i, char in enumerate(word):
+            if char == letter:
+                game_data['blank_word'][i] = letter
+        game_data['guessed_letters'].append(letter)
+    else:
+        # Incorrect guess
+        game_data['guesses_left'] -= 1
+        game_data['guessed_letters'].append(letter)
+    
+    # Check if game is won
+    if '_' not in game_data['blank_word']:
+        game_data['streak'] += 1
+        game_data['score'] += game_data['guesses_left']
+        game_data['guesses_left'] = 10  # Reset guesses for the next round
+        return jsonify({"result": "win", "game_data": game_data})
+    
+    # Check if game is over
+    if game_data['guesses_left'] <= 0:
+        game_data['streak'] = 0
+        game_data['score'] = 0
+        return jsonify({"result": "lose", "game_data": game_data})
+    
+    return jsonify({"result": "continue", "game_data": game_data})
 
-        # Validate input: only one letter is allowed
-        if len(guess) != 1 or not guess.isalpha():
-            return render_template(
-                "index.html",
-                message="Please enter a valid single letter.",
-                word=answer,
-                guesses_left=number_guess,
-                is_game_over=False
-            )
+@app.route('/reset', methods=['POST'])
+def reset():
+    return index()  # Reset the game by reloading the index
 
-        # Run the game loop logic and get the game state
-        game_message, word, answer, number_guess = run_game_loop(word, answer, guess, number_guess)
-
-        # Store updated game state in session
-        session["word"] = word
-        session["answer"] = answer
-        session["number_guess"] = number_guess
-
-        # Check if the game is over
-        if game_message:
-            session.clear()  # Clear session after game ends
-            return render_template(
-                "index.html",
-                message=game_message,
-                word=answer,
-                guesses_left=number_guess,
-                is_game_over=True
-            )
-
-        return render_template(
-            "index.html",
-            word=answer,
-            guesses_left=number_guess,
-            is_game_over=False
-        )
-
-    # Initialize a new game for a GET request
-    words = read_file("short_words.txt")  # Replace with your word list file name
-    selected_word = select_random_word(words)
-    current_answer = random_fill_word(selected_word)
-
-    # Initialize session variables
-    session["word"] = selected_word
-    session["answer"] = current_answer
-    session["number_guess"] = 5
-
-    return render_template(
-        "index.html",
-        word=current_answer,
-        guesses_left=5,
-        is_game_over=False
-    )
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
