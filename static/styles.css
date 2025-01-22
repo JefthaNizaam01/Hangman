@@ -8,8 +8,8 @@
   /*   background: #a5c9ff;
     background: #ffa5d7;
     background: #d0a5ff; */
-    background: rgb(255,0,53);
-    background: linear-gradient(135deg, rgba(33,34,176,1) 0%, rgba(255,0,53,1) 100%);
+    background: rgb(154, 110, 119);
+    background: linear-gradient(135deg, rgb(13, 13, 236) 0%, rgb(163, 181, 200) 100%);
     color: white;
     height: 100vh;
   }
