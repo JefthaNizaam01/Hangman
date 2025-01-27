@@ -30,7 +30,7 @@
   :-ms-input-placeholder { /* Internet Explorer 10-11 */
     color: rgba(255, 255, 255, 0.4);
   }
-  ::placeholder {
+   ::placeholder {
     color: rgba(255, 255, 255, 0.4);
   }
   
@@ -72,7 +72,7 @@
     transform: translate(-50%, -50%);
     display: flex;
     max-width: 100vw;
-  }
+  } */
   .word span {
     border-bottom: 2px solid white;
     padding: 10px; /* not ideal for long words */
