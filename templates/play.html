@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <button1 onclick="location.href='{{ url_for('menu') }}'" class="menu">Menu</button1>
     <div class="info">Try to guess the hidden word below before it's too late! You can guess one or more letters at a time or the whole word.</div>
 <input type="text" placeholder="Guess">
 <button style="display:none;">Play Again</button>
