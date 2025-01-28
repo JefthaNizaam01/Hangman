@@ -8,172 +8,173 @@
 <body>
     <button1 onclick="location.href='{{ url_for('menu') }}'" class="menu">Menu</button1>
     <div class="info">Try to guess the hidden word below before it's too late! You can guess one or more letters at a time or the whole word.</div>
-<input type="text" placeholder="Guess">
-<button style="display:none;">Play Again</button>
-<div class="word"></div>
-<div class="hint"></div>
-<div class="hangman"></div>
-<span style="position:absolute;bottom:10px;left:10px;">
-  <div><span>Reveal mode: </span> <input type="checkbox" id="reveal" /></div>
-  <div><span>Hints: </span> <input type="checkbox" id="hints" /></div>
-  <div class="guessesLeft">Guesses left: <span class="bold">10</span></div>
-  <div class="guessed">Guessed letters: <span class="bold"></span></div>
-</span>
-<span style="position:absolute;bottom:10px;right:10px;text-align:right;">
-  <div>Streak: <span class="streak bold">0</span></div>
-  <div>Average score: <span class="score bold">-</span></div>
-</span>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-      }
-      
-      body {
-        transition: .2s background;
-        font-family: 'Segoe UI', 'Roboto', arial, sans-serif;
-        background: rgb(154, 110, 119);
-        background: linear-gradient(135deg, rgb(13, 13, 236) 0%, rgb(163, 181, 200) 100%);
-        color: white;
-        height: 100vh;
-        overflow: hidden; /* Prevent body overflow */
-      }
-      
-      .bold {
-        font-weight: bold;
-      }
-      
-      .info {
-        font-style: italic;
-        text-align: center;
-        color: rgba(255, 255, 255, 0.8);
-      }
-      
-      ::-webkit-input-placeholder { 
-        color: rgba(255, 255, 255, 0.4);
-      }
-      :-ms-input-placeholder { 
-        color: rgba(255, 255, 255, 0.4);
-      }
-      ::placeholder {
-        color: rgba(255, 255, 255, 0.4);
-      }
-      
-      input[type="text"], button {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 10px;
-        border: none;
-        border-bottom: 1px solid white;
-        font-size: 1em;
-        margin-top: 10px;
-        background: none;
-        color: white;
-      }
-      
-      button, button1 {
-        background: none;
-        border-radius: 4px;
-        padding: 10px 16px;
-        color: white;
-        cursor: pointer;
-        border: 3px solid rgba(255, 255, 255, 0.6);
-        transition: .2s background;
-        text-transform: uppercase;
-        font-weight: bold;
-      }
-      
-      button:hover {
-        background: rgba(255, 255, 255, 0.1);
-      }
-      
-      button:active {
-        background: rgba(255, 255, 255, 0.3);
-      }
-      
-      .menu {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 8px;
-        font-size: 1em;
-        font-weight: bold;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: background 0.3s, transform 0.3s;
-        z-index: 9999; /* Ensure it's above other content */
-      }
-      
-      .menu:hover {
-        background: rgba(255, 255, 255, 0.4);
-        transform: scale(1.05);
-      }
-      
-      .menu:active {
-        background: rgba(255, 255, 255, 0.6);
-        transform: scale(1);
-      }
-      
-      .word, .hint {
-        position: absolute;
-        top: 80%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: flex;
-        max-width: 100vw;
-      }
-      
-      .word span {
-        border-bottom: 2px solid white;
-        padding: 10px;
-        margin: 10px;
-        width: 30px;
-        text-align: center;
-        font-size: 2em;
-        text-transform: uppercase;
-      }
-      
-      .hint {
-        top: 92%;
-      }
-      
-      .guessed span {
-        text-transform: uppercase;
-      }
-      
-      .hangman svg {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 30vw;
-        height: 40vh;
-        transform: translate(-50%, -50%);
-      }
-      
-      .hangman line, .hangman circle {
-        stroke: white;
-        stroke-width: 4;
-        fill: none;
-      }
-      
-      .hangman .draw {
-        stroke-dasharray: 1000;
-        stroke-dashoffset: 1000;
-        animation: dash 2s linear forwards;
-      }
-      
-      @keyframes dash {
-        to {
-            stroke-dashoffset: 0;
+    <input type="text" placeholder="Guess">
+    <button style="display:none;">Play Again</button>
+    <div class="word"></div>
+    <div class="hint"></div>
+    <div class="hangman"></div>
+    <span style="position:absolute;bottom:10px;left:10px;">
+      <div><span>Reveal mode: </span> <input type="checkbox" id="reveal" /></div>
+      <div><span>Hints: </span> <input type="checkbox" id="hints" /></div>
+      <div class="guessesLeft">Guesses left: <span class="bold">10</span></div>
+      <div class="guessed">Guessed letters: <span class="bold"></span></div>
+    </span>
+    <span style="position:absolute;bottom:10px;right:10px;text-align:right;">
+      <div>Streak: <span class="streak bold">0</span></div>
+      <div>Average score: <span class="score bold">-</span></div>
+    </span>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
         }
-      }
-      
-</style>
+
+        body {
+            transition: .2s background;
+            font-family: 'Segoe UI', 'Roboto', arial, sans-serif;
+            background: rgb(30, 30, 30);
+            background: linear-gradient(135deg, rgb(10, 10, 30) 0%, rgb(60, 60, 80) 100%);
+            color: white;
+            height: 100vh;
+            overflow: hidden; /* Prevent body overflow */
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .info {
+            font-style: italic;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        ::-webkit-input-placeholder { 
+            color: rgba(255, 255, 255, 0.4);
+        }
+        :-ms-input-placeholder { 
+            color: rgba(255, 255, 255, 0.4);
+        }
+        ::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        input[type="text"], button {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px;
+            border: none;
+            border-bottom: 1px solid white;
+            font-size: 1em;
+            margin-top: 10px;
+            background: none;
+            color: white;
+        }
+
+        button, button1 {
+            background: none;
+            border-radius: 4px;
+            padding: 10px 16px;
+            color: white;
+            cursor: pointer;
+            border: 3px solid rgba(255, 255, 255, 0.6);
+            transition: .2s background;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        button:active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .menu {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            z-index: 9999; /* Ensure it's above other content */
+        }
+
+        .menu:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        .menu:active {
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(1);
+        }
+
+        .word, .hint {
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            max-width: 100vw;
+        }
+
+        .word span {
+            border-bottom: 2px solid white;
+            padding: 10px;
+            margin: 10px;
+            width: 30px;
+            text-align: center;
+            font-size: 2em;
+            text-transform: uppercase;
+        }
+
+        .hint {
+            top: 92%;
+        }
+
+        .guessed span {
+            text-transform: uppercase;
+        }
+
+        .hangman svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30vw;
+            height: 40vh;
+            transform: translate(-50%, -50%);
+        }
+
+        .hangman line, .hangman circle {
+            stroke: white;
+            stroke-width: 4;
+            fill: none;
+        }
+
+        .hangman .draw {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 2s linear forwards;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+
     <script>
         const guessForm = document.getElementById('guess-form');
         const guessInput = document.getElementById('guess-input');
@@ -197,6 +198,6 @@
             });
         });
     </script>
-      <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
