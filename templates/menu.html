@@ -4,30 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hangman Game</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <!-- Menu Screen Content -->
-    <div class="menu-screen">
+    <div class="menu-screen text-center">
         <h1>Welcome to Hangman</h1>
-        <button onclick="location.href='/play'">Play</button>
-
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <button class="btn btn-primary btn-lg" onclick="location.href='/play'">
+                <i class="bi bi-controller"></i> Play
+            </button>
+            <button class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#leaderboardModal">
+                <i class="bi bi-trophy"></i> Leaderboard
+            </button>
+            <button class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#profileModal">
+                <i class="bi bi-person-circle"></i> Profile
+            </button>
+        </div>
     </div>
+
+    <!-- Leaderboard Modal -->
+    <div class="modal fade" id="leaderboardModal" tabindex="-1" aria-labelledby="leaderboardModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="leaderboardModalLabel">Leaderboard</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Leaderboard is under construction!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="profileModalLabel">Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Profile is under construction!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        body {
+            background: url('{{ url_for('static', filename='stickman.gif') }}') no-repeat center center fixed;
+            background-size: 600px 600px;
+            font-family: 'Segoe UI', 'Roboto', arial, sans-serif;
+            color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+    </style>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-<style>
-   
-body {
-    background: url('{{ url_for('static', filename='stickman.gif') }}') no-repeat center center fixed;
-    background-size: 600px 600px; 
-}
-
-h1 {
-    color: black
-}
-
-button {
-    color: black
-}
-
-</style>
 </html>
