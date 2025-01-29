@@ -203,7 +203,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Leaderboard is under construction!</p>
+                    <ul id="leaderboardList" class="list-group">
+                        <!-- Leaderboard items will be dynamically inserted here -->
+                    </ul>
                 </div>
             </div>
         </div>
@@ -218,7 +220,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Profile is under construction!</p>
+                    <form id="profileForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -259,6 +271,70 @@
 
         // Start the animation after 1 second
         setTimeout(animateHangman, 1000);
+    </script>
+
+    <!-- JavaScript for Leaderboard and Profile -->
+    <script>
+        // Leaderboard Data (stored in localStorage)
+        const leaderboardKey = 'hangmanLeaderboard';
+        let leaderboard = JSON.parse(localStorage.getItem(leaderboardKey)) || [];
+
+        // Profile Data (stored in localStorage)
+        const profileKey = 'hangmanProfile';
+        let profile = JSON.parse(localStorage.getItem(profileKey)) || { username: '', email: '' };
+
+        // Load Leaderboard
+        function loadLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboardList');
+            leaderboardList.innerHTML = ''; // Clear existing items
+
+            // Sort leaderboard by score (descending)
+            leaderboard.sort((a, b) => b.score - a.score);
+
+            // Add each player to the list
+            leaderboard.forEach((player, index) => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+                listItem.innerHTML = `
+                    <span>${index + 1}. ${player.username}</span>
+                    <span class="badge bg-primary rounded-pill">${player.score}</span>
+                `;
+                leaderboardList.appendChild(listItem);
+            });
+        }
+
+        // Load Profile
+        function loadProfile() {
+            document.getElementById('username').value = profile.username;
+            document.getElementById('email').value = profile.email;
+        }
+
+        // Save Profile
+        document.getElementById('profileForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            profile.username = document.getElementById('username').value;
+            profile.email = document.getElementById('email').value;
+            localStorage.setItem(profileKey, JSON.stringify(profile));
+            alert('Profile saved!');
+        });
+
+        // Initialize Leaderboard and Profile
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLeaderboard();
+            loadProfile();
+        });
+
+        // Example: Add a player to the leaderboard (for testing)
+        function addPlayerToLeaderboard(username, score) {
+            leaderboard.push({ username, score });
+            localStorage.setItem(leaderboardKey, JSON.stringify(leaderboard));
+            loadLeaderboard(); // Refresh the leaderboard display
+        }
+
+        // Test data (you can remove this in production)
+        addPlayerToLeaderboard('Player1', 100);
+        addPlayerToLeaderboard('Player2', 200);
+        addPlayerToLeaderboard('Player3', 150);
     </script>
 </body>
 </html>
