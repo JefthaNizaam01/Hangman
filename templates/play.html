@@ -8,18 +8,36 @@
 <body>
     <button1 onclick="location.href='{{ url_for('menu') }}'" class="menu">Menu</button1>
     <div class="info">Try to guess the hidden word below before it's too late! You can guess one or more letters at a time or the whole word.</div>
-    <input type="text" placeholder="Guess">
+    <input type="text" placeholder="Guess" id="guess-input">
     <button style="display:none;">Play Again</button>
     <div class="word"></div>
     <div class="hint"></div>
-    <div class="hangman"></div>
-    <span style="position:absolute;bottom:10px;left:10px;">
+    <div class="hangman">
+        <svg viewBox="0 0 200 200">
+            <!-- Gallows -->
+            <line x1="20" y1="180" x2="100" y2="180" class="draw" />
+            <line x1="60" y1="180" x2="60" y2="20" class="draw" />
+            <line x1="60" y1="20" x2="140" y2="20" class="draw" />
+            <line x1="140" y1="20" x2="140" y2="40" class="draw" />
+            <!-- Head -->
+            <circle cx="140" cy="60" r="20" class="draw" />
+            <!-- Body -->
+            <line x1="140" y1="80" x2="140" y2="120" class="draw" />
+            <!-- Arms -->
+            <line x1="140" y1="90" x2="120" y2="110" class="draw" />
+            <line x1="140" y1="90" x2="160" y2="110" class="draw" />
+            <!-- Legs -->
+            <line x1="140" y1="120" x2="120" y2="140" class="draw" />
+            <line x1="140" y1="120" x2="160" y2="140" class="draw" />
+        </svg>
+    </div>
+    <span style="position:absolute;bottom:25px;left:10px;">
       <div><span>Reveal mode: </span> <input type="checkbox" id="reveal" /></div>
       <div><span>Hints: </span> <input type="checkbox" id="hints" /></div>
-      <div class="guessesLeft">Guesses left: <span class="bold">10</span></div>
+      <div class="guessesLeft">Guesses left: <span class="bold">9</span></div>
       <div class="guessed">Guessed letters: <span class="bold"></span></div>
     </span>
-    <span style="position:absolute;bottom:10px;right:10px;text-align:right;">
+    <span style="position:absolute;bottom:25px;right:10px;text-align:right;">
       <div>Streak: <span class="streak bold">0</span></div>
       <div>Average score: <span class="score bold">-</span></div>
     </span>
@@ -33,11 +51,11 @@
         body {
             transition: .2s background;
             font-family: 'Segoe UI', 'Roboto', arial, sans-serif;
-            background: rgb(30, 30, 30);
-            background: linear-gradient(135deg, rgb(10, 10, 30) 0%, rgb(60, 60, 80) 100%);
+            background: rgb(10, 10, 30);
             color: white;
             height: 100vh;
             overflow: hidden; /* Prevent body overflow */
+            position: relative;
         }
 
         .bold {
@@ -48,6 +66,7 @@
             font-style: italic;
             text-align: center;
             color: rgba(255, 255, 255, 0.8);
+            margin-top: 20px;
         }
 
         ::-webkit-input-placeholder { 
@@ -71,6 +90,7 @@
             margin-top: 10px;
             background: none;
             color: white;
+            transition: border-color 0.3s, color 0.3s;
         }
 
         button, button1 {
@@ -137,6 +157,7 @@
             text-align: center;
             font-size: 2em;
             text-transform: uppercase;
+            transition: color 0.3s, text-shadow 0.3s;
         }
 
         .hint {
@@ -160,6 +181,7 @@
             stroke: white;
             stroke-width: 4;
             fill: none;
+            transition: stroke 0.3s;
         }
 
         .hangman .draw {
@@ -173,29 +195,199 @@
                 stroke-dashoffset: 0;
             }
         }
+
+        /* Hangman Animation */
+        .hangman line, .hangman circle {
+            animation: hangmanPulse 2s infinite alternate;
+        }
+
+        @keyframes hangmanPulse {
+            0% {
+                stroke: white;
+            }
+            100% {
+                stroke: cyan;
+            }
+        }
+
+        /* Starry Background */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .stars span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1),
+                        0 0 0 8px rgba(255, 255, 255, 0.1),
+                        0 0 20px rgba(255, 255, 255, 1);
+            animation: animate 3s linear infinite;
+        }
+
+        .stars span::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            height: 1px;
+            background: linear-gradient(90deg, #fff, transparent);
+        }
+
+        @keyframes animate {
+            0% {
+                transform: rotate(315deg) translateX(0);
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(315deg) translateX(-1000px);
+                opacity: 0;
+            }
+        }
+
+        .stars span:nth-child(1) {
+            top: 0;
+            right: 0;
+            left: initial;
+            animation-delay: 0;
+            animation-duration: 1s;
+        }
+
+        .stars span:nth-child(2) {
+            top: 0;
+            right: 80px;
+            left: initial;
+            animation-delay: 0.2s;
+            animation-duration: 3s;
+        }
+
+        .stars span:nth-child(3) {
+            top: 80px;
+            right: 0;
+            left: initial;
+            animation-delay: 0.4s;
+            animation-duration: 2s;
+        }
+
+        .stars span:nth-child(4) {
+            top: 0;
+            right: 180px;
+            left: initial;
+            animation-delay: 0.6s;
+            animation-duration: 1.5s;
+        }
+
+        .stars span:nth-child(5) {
+            top: 0;
+            right: 400px;
+            left: initial;
+            animation-delay: 0.8s;
+            animation-duration: 2.5s;
+        }
+
+        .stars span:nth-child(6) {
+            top: 0;
+            right: 600px;
+            left: initial;
+            animation-delay: 1s;
+            animation-duration: 3s;
+        }
+
+        .stars span:nth-child(7) {
+            top: 300px;
+            right: 0;
+            left: initial;
+            animation-delay: 1.1s;
+            animation-duration: 1.75s;
+        }
+
+        .stars span:nth-child(8) {
+            top: 0;
+            right: 700px;
+            left: initial;
+            animation-delay: 1.4s;
+            animation-duration: 1.25s;
+        }
+
+        .stars span:nth-child(9) {
+            top: 0;
+            right: 1000px;
+            left: initial;
+            animation-delay: 1.6s;
+            animation-duration: 2.25s;
+        }
+
+        .stars span:nth-child(10) {
+            top: 0;
+            right: 1200px;
+            left: initial;
+            animation-delay: 1.8s;
+            animation-duration: 2.75s;
+        }
+
+        /* Glowing Effect */
+        .glow {
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff, 0 0 80px #fff, 0 0 120px #fff;
+        }
+
+        .word span.glow {
+            color: #fff;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff, 0 0 80px #fff, 0 0 120px #fff;
+        }
     </style>
 
-    <script>
-        const guessForm = document.getElementById('guess-form');
-        const guessInput = document.getElementById('guess-input');
+    <div class="stars">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
-        guessForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const letter = guessInput.value.toLowerCase();
-            fetch('/guess', {
-                method: 'POST',
-                body: new URLSearchParams({ 'letter': letter }),
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === 'win') {
-                    alert('You won!');
-                } else if (data.result === 'lose') {
-                    alert('Game Over!');
-                }
-                location.reload();
-            });
+    <script>
+        const guessInput = document.getElementById('guess-input');
+        const hangmanSvg = document.querySelector('.hangman svg');
+
+        guessInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                // Change input border and text color
+                guessInput.style.borderColor = 'cyan';
+                guessInput.style.color = 'cyan';
+
+                // Change hangman stroke color
+                const lines = hangmanSvg.querySelectorAll('line, circle');
+                lines.forEach(line => {
+                    line.style.stroke = 'cyan';
+                });
+
+                // Reset after a short delay
+                setTimeout(() => {
+                    guessInput.style.borderColor = 'white';
+                    guessInput.style.color = 'white';
+                    lines.forEach(line => {
+                        line.style.stroke = 'white';
+                    });
+                }, 500);
+            }
         });
     </script>
     <script src="{{ url_for('static', filename='app.js') }}"></script>
