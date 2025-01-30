@@ -182,9 +182,28 @@
     <div class="menu-screen">
         <h1>Welcome to Hangman</h1>
         <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <button class="btn btn-primary btn-lg" onclick="location.href='/play'">
+          <div class="dropdown">
+            <button
+                class="btn btn-primary btn-lg dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+            >
                 <i class="bi bi-controller"></i> Play
             </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li>
+                    <a class="dropdown-item" href="/play?level=easy">Easy</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="/play?level=medium">Medium</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="/play?level=nash">Nash</a>
+                </li>
+            </ul>
+        </div>
             <button class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#leaderboardModal">
                 <i class="bi bi-trophy"></i> Leaderboard
             </button>
