@@ -1,0 +1,27 @@
+Case Study: Development of a Hangman Game Using Flask
+Introduction
+The Hangman project was developed by a team consisting of Shakeel, Mohammad, Nizaam, Chloe, and Anushqa, with Nizaam serving as the Team Leader. The project was selected after considering various options, with the decision being driven by its suitability as a beginner-friendly yet engaging application. The primary goal was to create a functional and well-designed Hangman game while familiarizing the team with essential development tools and collaboration processes.
+Project Planning and Task Distribution
+The team organized their workflow efficiently by assigning tasks based on skill sets and interests:
+Backend Development: Mohammad took the lead in implementing the backend logic with support from Nizaam. The backend was developed using Flask, ensuring a structured and scalable approach to handling game logic and API endpoints.
+Design and UI/UX: Chloe and Anushqa focused on the game’s user interface and experience using Figma. Their role was crucial in ensuring a visually appealing and intuitive design.
+Frontend Development: Shakeel was responsible for implementing the frontend components, integrating the design into a working user interface, and adding extra functions such as a menu page.
+Project Management and Documentation: Nizaam played a key role in tracking progress, facilitating meetings, and recording updates using ClickUp, ensuring smooth communication and project tracking.
+Development Process
+The team followed a structured workflow to ensure smooth collaboration:
+Conceptualization & Design: Initial brainstorming and prototyping were done using Figma.
+Backend Implementation: Flask was used to build the backend logic, handling word selection, guessing mechanics, and API interactions.
+Frontend Development: HTML, CSS, and JavaScript were used to create the game interface, connecting it to the backend.
+Integration & Testing: The components were integrated and tested to ensure seamless gameplay.
+Meetings & Progress Tracking: Regular stand-up meetings were conducted and documented on ClickUp.
+Challenges & Solutions
+Backend Challenges: Initially, integrating Flask with the frontend posed challenges, which were resolved through team discussions and debugging.
+UI/UX Adjustments: The transition from design to development required several iterations to align with the team’s vision.
+Collaboration & Coordination: Effective communication using ClickUp helped in synchronizing the efforts of all team members.
+Conclusion & Key Takeaways
+The Hangman project was a successful first step in collaborative development. It provided valuable experience in:
+Working with Flask for backend development.
+Designing user-friendly interfaces in Figma.
+Integrating frontend and backend components.
+Managing tasks and documentation efficiently using ClickUp.
+This project not only strengthened technical skills but also emphasized the importance of teamwork and structured project management in software development.
