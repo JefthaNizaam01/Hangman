@@ -12,8 +12,6 @@ def select_random_word(words):
     word = words[random_index].strip()
     return word
 
-    
-
 # Randomly fill in one character of the word
 def random_fill_word(word):
     random_char = choice(word)
